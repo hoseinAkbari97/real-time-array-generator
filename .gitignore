@@ -1,0 +1,40 @@
+# Ignore Python compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Ignore virtual environment folders
+venv/
+ENV/
+env/
+.venv/
+
+# Ignore environment configuration files
+*.env
+
+# Ignore VSCode-specific files
+.vscode/
+
+# Ignore database files
+*.db
+*.sqlite3
+
+# Ignore log files
+*.log
+
+# Ignore cache files
+*.cache/
+*.egg-info/
+
+# Ignore any kind of archive or binary file
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+
+# Ignore installed package files
+pip-wheel-metadata/
+
+# Ignore the MongoDB lock file
+mongod.lock

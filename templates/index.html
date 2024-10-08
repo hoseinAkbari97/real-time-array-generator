@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-Time Random Array Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+</head>
+<body>
+    <h1>Real-Time Random Array Generator</h1>
+    <button onclick="generateArray()">Generate Array</button>
+    <div id="array"></div>
+    
+    <script type="text/javascript">
+        var socket = io();
+
+        function generateArray() {
+            const size = prompt("Enter array size (default: 10000):", "10000");
+            const min_val = prompt("Enter minimum value (default: 0):", "0");
+            const max_val = prompt("Enter maximum value (default: 99999):", "99999");
+
+            socket.emit('generate_array', {size: parseInt(size), min_val: parseInt(min_val), max_val: parseInt(max_val)});
+        }
+
+        socket.on('array_generated', function(data) {
+            document.getElementById('array').innerHTML = "Generated Array: " + data.array.join(", ");
+        });
+    </script>
+</body>
+</html>
