@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Stored Arrays</title>
+</head>
+<body>
+    <h1>Stored Arrays</h1>
+    <a href="/">Back to Generator</a>
+    <ul>
+        {% for array in arrays %}
+            <li>{{ array['array'] }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

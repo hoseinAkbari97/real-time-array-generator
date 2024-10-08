@@ -16,6 +16,12 @@ collection = db["arrays"]
 def index():
     return render_template('index.html')
 
+@app.route('/view-arrays')
+def view_arrays():
+    # Fetch all arrays from the MongoDB collection
+    stored_arrays = list(collection.find({}, {"_id": 0, "array": 1}))
+    return render_template('view_arrays.html', arrays=stored_arrays)
+
 @socketio.on('generate_array')
 def generate_array(data):
     size = data.get('size', 10000)

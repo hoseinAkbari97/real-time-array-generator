@@ -2,26 +2,73 @@
 <html>
 <head>
     <title>Real-Time Random Array Generator</title>
+    <!-- Add some basic styling for better visualization -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #array {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+        .navigation {
+            margin-bottom: 20px;
+        }
+    </style>
+    <!-- Include the Socket.IO client-side library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
 </head>
 <body>
     <h1>Real-Time Random Array Generator</h1>
-    <button onclick="generateArray()">Generate Array</button>
-    <div id="array"></div>
-    
+
+    <!-- Navigation buttons -->
+    <div class="navigation">
+        <button onclick="generateArray()">Generate Array</button>
+        <button onclick="location.href='/view-arrays'">View Stored Arrays</button>
+    </div>
+
+    <!-- Display the generated array -->
+    <div id="array">Generated arrays will appear here...</div>
+
+    <!-- JavaScript code to handle WebSocket communication and array generation -->
     <script type="text/javascript">
+        // Establish a connection to the server using Socket.IO
         var socket = io();
 
+        // Function to trigger array generation on the server
         function generateArray() {
-            const size = prompt("Enter array size (default: 10000):", "10000");
-            const min_val = prompt("Enter minimum value (default: 0):", "0");
-            const max_val = prompt("Enter maximum value (default: 99999):", "99999");
+            // Prompt user for array details
+            const size = parseInt(prompt("Enter array size (default: 10000):", "10000")) || 10000;
+            const min_val = parseInt(prompt("Enter minimum value (default: 0):", "0")) || 0;
+            const max_val = parseInt(prompt("Enter maximum value (default: 99999):", "99999")) || 99999;
 
-            socket.emit('generate_array', {size: parseInt(size), min_val: parseInt(min_val), max_val: parseInt(max_val)});
+            // Emit the 'generate_array' event to the server with the specified parameters
+            socket.emit('generate_array', { size: size, min_val: min_val, max_val: max_val });
         }
 
+        // Listen for the 'array_generated' event from the server
         socket.on('array_generated', function(data) {
-            document.getElementById('array').innerHTML = "Generated Array: " + data.array.join(", ");
+            // Display the generated array on the webpage
+            document.getElementById('array').innerHTML = "<strong>Generated Array:</strong> " + data.array.join(", ");
         });
     </script>
 </body>
